@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import streamlit as st
 
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
@@ -20,24 +21,33 @@ SCOPES = [
     "https://www.googleapis.com/auth/tasks.readonly",
 ]
 
-CREDENTIALS_FILE = Path("credentials.json")
-REDIRECT_URI = "http://localhost:8502"
+REDIRECT_URI = "https://vjqzqmwphtqbzenxu.streamlit.app"
 
 
-def create_google_flow(state: str | None = None) -> Flow:
-    """Create the Google web OAuth flow."""
-    if not CREDENTIALS_FILE.exists():
-        raise FileNotFoundError(
-            "credentials.json was not found in the project folder."
-        )
+def create_google_flow(state: str | None = None):
+    """Create the Google web OAuth flow using Streamlit Secrets."""
 
-    return Flow.from_client_secrets_file(
-    str(CREDENTIALS_FILE),
-    scopes=SCOPES,
-    state=state,
-    redirect_uri=REDIRECT_URI,
-    autogenerate_code_verifier=False,
-)
+    client_config = {
+        "web": {
+            "client_id": st.secrets["google_oauth"]["client_id"],
+            "client_secret": st.secrets["google_oauth"]["client_secret"],
+            "project_id": st.secrets["google_oauth"]["project_id"],
+            "auth_uri": st.secrets["google_oauth"]["auth_uri"],
+            "token_uri": st.secrets["google_oauth"]["token_uri"],
+            "auth_provider_x509_cert_url": st.secrets["google_oauth"][
+                "auth_provider_x509_cert_url"
+            ],
+            "redirect_uris": [REDIRECT_URI],
+        }
+    }
+
+    return Flow.from_client_config(
+        client_config,
+        scopes=SCOPES,
+        state=state,
+        redirect_uri=REDIRECT_URI,
+        autogenerate_code_verifier=False,
+    )
 
 
 def get_authorization_url() -> tuple[str, str]:

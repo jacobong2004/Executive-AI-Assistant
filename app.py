@@ -85,6 +85,18 @@ def display_sidebar() -> None:
 
         st.divider()
 
+        if st.session_state.google_credentials is None:
+            auth_url, state = get_authorization_url()
+            st.session_state.oauth_state = state
+
+            st.link_button(
+                "🔗 Connect Google Calendar",
+                auth_url,
+                use_container_width=True,
+            )
+else:
+    st.success("✅ Google Calendar Connected")
+
         st.button("🏠 Dashboard", use_container_width=True)
         st.button("📧 Emails", use_container_width=True)
         st.button("📅 Calendar", use_container_width=True)
