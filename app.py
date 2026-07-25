@@ -77,13 +77,10 @@ def process_google_callback() -> None:
 
 def display_sidebar() -> None:
     """Display the application's navigation sidebar."""
+
     with st.sidebar:
         st.title("🤖 Executive AI")
         st.caption("Your intelligent command centre")
-
-        st.info("📅 Google Calendar is temporarily disabled.")       
-
-        st.divider()
 
         if st.session_state.google_credentials is None:
             auth_url, state = get_authorization_url()
@@ -94,8 +91,8 @@ def display_sidebar() -> None:
                 auth_url,
                 use_container_width=True,
             )
-else:
-    st.success("✅ Google Calendar Connected")
+        else:
+            st.success("✅ Google Calendar Connected")
 
         st.button("🏠 Dashboard", use_container_width=True)
         st.button("📧 Emails", use_container_width=True)
