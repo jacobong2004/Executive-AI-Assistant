@@ -82,7 +82,7 @@ def display_sidebar() -> None:
         st.caption("Your intelligent command centre")
 
         if st.session_state.google_credentials is None:
-            auth_url, state = get_authorization_url()
+            #auth_url, state = get_authorization_url()
             st.session_state.oauth_state = state
 
             st.link_button(
