@@ -21,7 +21,7 @@ SCOPES = [
     "https://www.googleapis.com/auth/tasks.readonly",
 ]
 
-REDIRECT_URI = "https://vjqzqmwphtqbzenxu.streamlit.app"
+REDIRECT_URI = "https://executive-ai-assistant-uladayjqzqmwphtqbzenxu.streamlit.app"
 
 
 def create_google_flow(state: str | None = None):
